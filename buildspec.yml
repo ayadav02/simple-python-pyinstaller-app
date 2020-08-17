@@ -31,7 +31,6 @@
           - export AWS_SESSION_TOKEN=$(cat creds.json | jq -r '.Credentials.SessionToken')
           - aws sts get-caller-identity
           - echo "AWS_ACCESS_KEY_ID"
-          -
           - cat <<EOF >./kustomization.yaml
             resources:
               - deployment.yaml $REPOSITORY_URI:$TAG
