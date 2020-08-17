@@ -11,17 +11,18 @@
           - yum -y install jq python3-pip python3-dev && pip3 install --upgrade awscli
       pre_build:
           commands:
-            #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-            #- sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' hello-k8s.yml
-            #- $(aws ecr get-login --no-include-email)
-            #- export KUBECONFIG=$HOME/.kube/config
+            - TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+            - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' hello-k8s.yml
+            - $(aws ecr get-login --no-include-email)
+            - export KUBECONFIG=$HOME/.kube/config
       build:
         commands:
-          #- docker build --tag $REPOSITORY_URI:$TAG .
+          - docker build --tag $REPOSITORY_URI:$TAG .
 
       post_build:
         commands:
-          #- docker push $REPOSITORY_URI:$TAG
+          - docker push $REPOSITORY_URI:$TAG
+          - echo $REPOSITORY_URI:$TAG
           #- CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
           - aws sts assume-role --role-arn arn:aws:iam::176023829637:role/dev_deployment_role --role-session-name codebuild-kubectl > creds.json
           - cat creds.json
@@ -30,7 +31,14 @@
           - export AWS_SESSION_TOKEN=$(cat creds.json | jq -r '.Credentials.SessionToken')
           - aws sts get-caller-identity
           - echo "AWS_ACCESS_KEY_ID"
+          -
+          - cat <<EOF >./kustomization.yaml
+            resources:
+              - deployment.yaml $REPOSITORY_URI:$TAG
+              - service.yaml
+            EOF
           #- aws s3 ls
+          - cat kustomization.yaml
           - aws eks update-kubeconfig --name eks_cluster --region us-east-1 --role-arn arn:aws:iam::176023829637:role/dev_deployment_role
           #- aws eks --region us-east-1 update-kubeconfig --name eks_cluster_poc
           - cat pod.yml
