@@ -7,6 +7,7 @@
           - curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
           - chmod +x ./kubectl ./aws-iam-authenticator
           - export PATH=$PWD/:$PATH
+          - yum upgrade -y
           - yum -y install jq python3-pip python3-dev && pip3 install --upgrade awscli
       pre_build:
           commands:
@@ -30,7 +31,7 @@
           - aws sts get-caller-identity
           - echo "AWS_ACCESS_KEY_ID"
           #- aws s3 ls
-          - aws eks update-kubeconfig --name eks_cluster_poc --region us-east-1 --role-arn arn:aws:iam::176023829637:role/dev_deployment_role
+          - aws eks update-kubeconfig --name eks_cluster --region us-east-1 --role-arn arn:aws:iam::176023829637:role/dev_deployment_role
           #- aws eks --region us-east-1 update-kubeconfig --name eks_cluster_poc
           - cat pod.yml
           - kubectl apply -f pod.yml

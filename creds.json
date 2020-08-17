@@ -1,0 +1,12 @@
+{
+    "AssumedRoleUser": {
+        "AssumedRoleId": "AROASR66WPSCZQ656DCCI:AWSCLI-Session", 
+        "Arn": "arn:aws:sts::176023829637:assumed-role/dev_deployment_role/AWSCLI-Session"
+    }, 
+    "Credentials": {
+        "SecretAccessKey": "YUjcLemdvwbA2yv49p7vy6AWJ03UaG2xJ/g4FmGv", 
+        "SessionToken": "FwoGZXIvYXdzECYaDBvtbPWMXmj9tVXk/yKyAfQbGzpS47mjrPhbYglrC35zAO8wdBfPUSK8ibvHBVMQDQ40IRKGMrVr60XWFQHrAC1O0nySm64DjQsvbvGVGeRyZohqaR7ilzeD2z80mYn0KjX2iHLqtJunO3jd+No+voBw7d4gbDQMymyhGXwT1we9osejFkLc7xUc/MK0pBVv/J4zzqp3b08pmbnhM2EVYRUcp8dsbnUfXw8KiJQ4h3YglbegC8vyvhxpufmmMojlDn0o8ujp+QUyLdKEMSrcOZGKwYp1PXUPo9v8yGMZ9MJPX1X6qV1JLEdTjO+BSVzLVUdsVNEv5w==", 
+        "Expiration": "2020-08-17T13:13:38Z", 
+        "AccessKeyId": "ASIASR66WPSCSPORUB26"
+    }
+}
